@@ -18,6 +18,12 @@ from strategy_engine import KriptoLevoStrategyEngine
 
 STATE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "bot_state.json")
 
+# Gerçek Borsa USDT-M Vadeli İşlem Taker Komisyon Oranları (Tek Yön)
+EXCHANGE_TAKER_FEES = {
+    "BINANCE": 0.0005,  # %0.05 giriş + %0.05 çıkış = %0.10
+    "MEXC": 0.0002,     # %0.02 giriş + %0.02 çıkış = %0.04
+}
+
 
 class PaperTradingBot:
     def __init__(
@@ -122,6 +128,10 @@ class PaperTradingBot:
         except Exception:
             return None
 
+    @staticmethod
+    def get_fee_rate(exchange: str) -> float:
+        return EXCHANGE_TAKER_FEES.get((exchange or "BINANCE").upper(), 0.0005)
+
     def update_open_positions(self, price_map: Dict[str, float]):
         to_close = []
         for sym, pos in self.open_positions.items():
@@ -131,14 +141,17 @@ class PaperTradingBot:
             pos["current_price"] = cur_price
             entry = pos["entry_price"]
             direction = pos["direction"]
+            fee_rate = self.get_fee_rate(pos.get("exchange", "BINANCE"))
             pnl_pct = ((cur_price - entry) / entry) if direction == "LONG" else ((entry - cur_price) / entry)
-            pos["unrealized_pnl_usdt"] = round(pos["remaining_notional"] * pnl_pct, 2)
+            est_exit_fee = pos["remaining_notional"] * fee_rate
+            pos["unrealized_pnl_usdt"] = round((pos["remaining_notional"] * pnl_pct) - est_exit_fee, 2)
 
             # Stop kontrolü
             hit_stop = (cur_price <= pos["stop_price"]) if direction == "LONG" else (cur_price >= pos["stop_price"])
             if hit_stop:
-                realized = pos.get("realized_pnl_usdt", 0.0) + pos["unrealized_pnl_usdt"]
-                self.balance += pos["unrealized_pnl_usdt"]
+                exit_pnl = (pos["remaining_notional"] * pnl_pct) - est_exit_fee
+                realized = pos.get("realized_pnl_usdt", 0.0) + exit_pnl
+                self.balance += exit_pnl
                 pos["exit_price"] = cur_price
                 pos["realized_pnl_usdt"] = round(realized, 2)
                 pos["close_reason"] = "BREAKEVEN_STOP" if pos["tp1_hit"] else "STOP_LOSS"
@@ -151,7 +164,8 @@ class PaperTradingBot:
                 hit_tp1 = (cur_price >= pos["tp1"]) if direction == "LONG" else (cur_price <= pos["tp1"])
                 if hit_tp1:
                     close_notional = pos["initial_notional"] * 0.75
-                    tp1_pnl = close_notional * (abs(pos["tp1"] - entry) / entry)
+                    tp1_fee = close_notional * fee_rate
+                    tp1_pnl = (close_notional * (abs(pos["tp1"] - entry) / entry)) - tp1_fee
                     self.balance += tp1_pnl
                     pos["realized_pnl_usdt"] = round(pos.get("realized_pnl_usdt", 0.0) + tp1_pnl, 2)
                     pos["remaining_notional"] = round(pos["initial_notional"] * 0.25, 2)
@@ -163,7 +177,8 @@ class PaperTradingBot:
             if pos["tp1_hit"]:
                 hit_tp2 = (cur_price >= pos["tp2"]) if direction == "LONG" else (cur_price <= pos["tp2"])
                 if hit_tp2:
-                    tp2_pnl = pos["remaining_notional"] * (abs(pos["tp2"] - entry) / entry)
+                    tp2_fee = pos["remaining_notional"] * fee_rate
+                    tp2_pnl = (pos["remaining_notional"] * (abs(pos["tp2"] - entry) / entry)) - tp2_fee
                     self.balance += tp2_pnl
                     pos["realized_pnl_usdt"] = round(pos.get("realized_pnl_usdt", 0.0) + tp2_pnl, 2)
                     pos["exit_price"] = cur_price
@@ -183,11 +198,13 @@ class PaperTradingBot:
         cur_price = pos.get("current_price", pos["entry_price"])
         entry = pos["entry_price"]
         direction = pos["direction"]
+        fee_rate = self.get_fee_rate(pos.get("exchange", "BINANCE"))
         pnl_pct = ((cur_price - entry) / entry) if direction == "LONG" else ((entry - cur_price) / entry)
-        unrl = round(pos["remaining_notional"] * pnl_pct, 2)
-        self.balance += unrl
+        exit_fee = pos["remaining_notional"] * fee_rate
+        net_pnl = round((pos["remaining_notional"] * pnl_pct) - exit_fee, 2)
+        self.balance += net_pnl
         pos["exit_price"] = cur_price
-        pos["realized_pnl_usdt"] = round(pos.get("realized_pnl_usdt", 0.0) + unrl, 2)
+        pos["realized_pnl_usdt"] = round(pos.get("realized_pnl_usdt", 0.0) + net_pnl, 2)
         pos["close_reason"] = "MANUEL_KAPATMA"
         pos["closed_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         closed = self.open_positions.pop(sym)
@@ -243,9 +260,13 @@ class PaperTradingBot:
                 stop_dist = abs(entry - stop) / max(entry, 1e-12)
                 if stop_dist <= 0.001:
                     continue
-                risk_usdt = self.balance * (self.risk_per_trade_pct / 100.0)
-                notional = min(risk_usdt / stop_dist, (self.balance / self.max_positions) * self.leverage)
-                margin = notional / self.leverage
+                # Sabit kasa oranı: Kasanın %2'si marjin, 10x kaldıraç
+                margin = self.balance * (self.risk_per_trade_pct / 100.0)
+                notional = margin * self.leverage
+                risk_usdt = notional * stop_dist
+                fee_rate = self.get_fee_rate(sig["exchange"])
+                entry_fee = notional * fee_rate
+                self.balance -= entry_fee
 
                 self.open_positions[sym] = {
                     "id": f"{sym}_{int(time.time())}",
@@ -269,8 +290,9 @@ class PaperTradingBot:
                     "margin_usdt": round(margin, 2),
                     "margin_pct": round((margin / max(self.balance, 1e-12)) * 100.0, 2),
                     "risk_usdt": round(risk_usdt, 2),
-                    "unrealized_pnl_usdt": 0.0,
-                    "realized_pnl_usdt": 0.0,
+                    "entry_fee_usdt": round(entry_fee, 4),
+                    "unrealized_pnl_usdt": round(-entry_fee, 2),
+                    "realized_pnl_usdt": round(-entry_fee, 2),
                     "net_r": sig["net_r"],
                     "volatility_score": sig["volatility_score"],
                     "confluences": sig["confluences"],
