@@ -156,9 +156,9 @@ HTML_DASHBOARD = r"""<!DOCTYPE html>
     <table>
       <thead>
         <tr>
-          <th>Parite</th><th>Borsa</th><th>Yön</th><th>Derece</th><th>Giriş</th>
+          <th>Parite</th><th>Borsa</th><th>Yön</th><th>Kaldıraç</th><th>Marjin ($ / %)</th><th>Büyüklük ($)</th><th>Derece</th><th>Giriş</th>
           <th>Anlık Fiyat</th><th>Stop (SL)</th><th>TP1 (%75)</th><th>TP2 (%25)</th>
-          <th>Anlık Kâr/Zarar</th><th>Durum</th>
+          <th>Anlık Kâr/Zarar</th><th>Durum</th><th>İşlem</th>
         </tr>
       </thead>
       <tbody id="openBody"></tbody>
@@ -259,6 +259,13 @@ async function toggleBot() {
   await fetchState();
 }
 
+async function closePosition(ev, symbol) {
+  ev.stopPropagation();
+  if (!confirm(symbol + ' pozisyonunu anlık fiyattan kapatmak istiyor musunuz?')) return;
+  await fetch('/api/close?symbol=' + encodeURIComponent(symbol), { method: 'POST' });
+  await fetchState();
+}
+
 function renderAll() {
   if (!STATE) return;
   document.getElementById('lastScan').innerText = 'Son Tarama: ' + (STATE.last_scan_time || '-') + ' | Binance & MEXC Canlı Akış (5 sn Fiyat Güncellemesi)';
@@ -287,11 +294,19 @@ function renderAll() {
 
   // Open Positions
   const ob = document.getElementById('openBody');
-  ob.innerHTML = openList.length ? openList.map(p => `
+  ob.innerHTML = openList.length ? openList.map(p => {
+    const lev = p.leverage || STATE.leverage || 10;
+    const mUsd = Number(p.margin_usdt || 0);
+    const mPct = p.margin_pct !== undefined ? Number(p.margin_pct) : ((mUsd / Math.max(Number(STATE.balance || 100), 1)) * 100);
+    const notional = Number(p.initial_notional || (mUsd * lev));
+    return `
     <tr class="clickable" onclick="openTradeTab('${p.symbol}')">
       <td><strong>${p.symbol}</strong> ↗</td>
       <td>${p.exchange}</td>
       <td><span class="pill ${p.direction==='LONG'?'long':'short'}">${p.direction}</span></td>
+      <td><span class="pill grade-B">${lev}x</span></td>
+      <td><strong>$${mUsd.toFixed(2)}</strong> <span style="color:#8b9bb4;">(%${mPct.toFixed(1)})</span></td>
+      <td>$${notional.toFixed(2)}</td>
       <td><span class="pill grade-${p.grade}">${p.grade} (${p.score_14}/14)</span></td>
       <td>${p.entry_price}</td>
       <td>${p.current_price}</td>
@@ -300,8 +315,9 @@ function renderAll() {
       <td>${p.tp2}</td>
       <td class="${p.unrealized_pnl_usdt>=0?'pos':'neg'}">${p.unrealized_pnl_usdt>=0?'+':''}$${p.unrealized_pnl_usdt}</td>
       <td>${p.status_note}</td>
+      <td><button class="btn-danger" style="padding:5px 10px;font-size:12px;" onclick="closePosition(event, '${p.symbol}')">❌ Kapat</button></td>
     </tr>
-  `).join('') : '<tr><td colspan="11" style="color:#8b9bb4;text-align:center;">Şu anda açık pozisyon yok.</td></tr>';
+  `}).join('') : '<tr><td colspan="15" style="color:#8b9bb4;text-align:center;">Şu anda açık pozisyon yok.</td></tr>';
 
   renderTables();
 }
@@ -441,6 +457,9 @@ fetch('/api/trade?symbol=' + encodeURIComponent(SYM)).then(r => r.json()).then(d
   box.innerHTML = `
     <h3 style="margin-top:0;">${SYM} (${pos.direction || '-'})</h3>
     <div class="row"><span class="lbl">Borsa</span><strong>${pos.exchange || coin.exchange || 'BINANCE'}</strong></div>
+    <div class="row"><span class="lbl">Kaldıraç</span><strong>${pos.leverage || 10}x</strong></div>
+    <div class="row"><span class="lbl">Marjin ($ / %)</span><strong>$${Number(pos.margin_usdt || 0).toFixed(2)} (%${Number(pos.margin_pct || 0).toFixed(1)})</strong></div>
+    <div class="row"><span class="lbl">İşlem Büyüklüğü</span><strong>$${Number(pos.initial_notional || 0).toFixed(2)}</strong></div>
     <div class="row"><span class="lbl">14 Koşul Tablosu</span><strong>${pos.grade || '-'} (${pos.score_14 || 0}/14)</strong></div>
     <div class="row"><span class="lbl">Giriş Fiyatı</span><strong>${pos.entry_price || coin.last_price || '-'}</strong></div>
     <div class="row"><span class="lbl">Stop-Loss</span><strong style="color:#ef4444;">${pos.stop_price || '-'}</strong></div>
@@ -527,6 +546,12 @@ class BotRequestHandler(BaseHTTPRequestHandler):
                 BOT.save_state()
                 state = BOT.is_running
             self._send_json({"is_running": state})
+        elif parsed.path == "/api/close":
+            qs = urllib.parse.parse_qs(parsed.query)
+            sym = qs.get("symbol", [""])[0].upper()
+            with BOT_LOCK:
+                closed = BOT.manual_close_position(sym)
+            self._send_json({"ok": closed is not None, "closed": closed})
         elif parsed.path == "/webhook":
             length = int(self.headers.get("Content-Length", 0) or 0)
             raw = self.rfile.read(length).decode("utf-8", errors="ignore")
