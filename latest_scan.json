@@ -1,0 +1,970 @@
+[
+  {
+    "symbol": "BTCUSDT",
+    "timeframe": "15m",
+    "last_price": 63804.0,
+    "rsi_14": 36.65,
+    "ema50": 64469.2016,
+    "vegas_cloud": "64664.5253 - 64697.0327",
+    "trend_dir": "SHORT",
+    "score_14": 12,
+    "grade": "A",
+    "conditions_14": {
+      "1_EMA50_Trend": true,
+      "2_EMA144_169_Bulut": true,
+      "3_EMA20_50_Dizilim": true,
+      "4_VWAP_Konumu": true,
+      "5_RSI_Momentum": true,
+      "6_MACD_Histogram": true,
+      "7_Stoch_Yon": false,
+      "8_CCI_Trend": true,
+      "9_Momentum_10": true,
+      "10_Hacim_Ortalamasi": false,
+      "11_OBV_Akisi": true,
+      "12_ATR_Volatilite": true,
+      "13_Trend_Gucu_ADX": true,
+      "14_Sinyal_Yasi_Taze": true
+    },
+    "liquidity_sweep": null,
+    "active_fvg_count": 1,
+    "active_ob_count": 1,
+    "major_boxes": [
+      {
+        "top": 65027.1,
+        "mid": 64643.7,
+        "bottom": 64260.3,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 65162.8,
+        "mid": 64923.05,
+        "bottom": 64683.3,
+        "break_dir": "UP",
+        "state": "✓ YAPTI"
+      }
+    ],
+    "fib_plan": {
+      "direction": "SHORT",
+      "status": "TP1_HIT",
+      "entry_method": "Fib 0.500 dönüşü",
+      "entry_price": 64832.65,
+      "stop_price": 65763.855,
+      "tp1_75pct": 63525.5768,
+      "tp2_25pct": 63285.1566,
+      "tp3": 62939.7642,
+      "tp4": 62293.0,
+      "gross_r": 1.47,
+      "net_r": 1.22,
+      "bars_waited": 5,
+      "tp1_hit": true,
+      "confluences": [
+        "OB_BEAR (64536.2000-65141.0000)",
+        "Mavi Kutu [✓ YAPTI] (64260.3000-65027.1000)",
+        "Mavi Kutu [✓ YAPTI] (64683.3000-65162.8000)"
+      ],
+      "position_sizing": {
+        "qty": 0.0064,
+        "notional_usdt": 417.73,
+        "margin_usdt": 41.77,
+        "risk_usdt": 6.0
+      }
+    }
+  },
+  {
+    "symbol": "ETHUSDT",
+    "timeframe": "15m",
+    "last_price": 1786.89,
+    "rsi_14": 40.8,
+    "ema50": 1806.2721,
+    "vegas_cloud": "1814.2463 - 1815.0896",
+    "trend_dir": "SHORT",
+    "score_14": 11,
+    "grade": "A",
+    "conditions_14": {
+      "1_EMA50_Trend": true,
+      "2_EMA144_169_Bulut": true,
+      "3_EMA20_50_Dizilim": true,
+      "4_VWAP_Konumu": true,
+      "5_RSI_Momentum": true,
+      "6_MACD_Histogram": true,
+      "7_Stoch_Yon": false,
+      "8_CCI_Trend": true,
+      "9_Momentum_10": true,
+      "10_Hacim_Ortalamasi": false,
+      "11_OBV_Akisi": false,
+      "12_ATR_Volatilite": true,
+      "13_Trend_Gucu_ADX": true,
+      "14_Sinyal_Yasi_Taze": true
+    },
+    "liquidity_sweep": null,
+    "active_fvg_count": 0,
+    "active_ob_count": 1,
+    "major_boxes": [
+      {
+        "top": 1826.1,
+        "mid": 1814.895,
+        "bottom": 1803.69,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 1831.2,
+        "mid": 1820.295,
+        "bottom": 1809.39,
+        "break_dir": "UP",
+        "state": "✓ YAPTI"
+      }
+    ],
+    "fib_plan": {
+      "direction": "SHORT",
+      "status": "TP1_HIT",
+      "entry_method": "Fib 0.500 dönüşü",
+      "entry_price": 1833.005,
+      "stop_price": 1869.5305,
+      "tp1_75pct": 1781.7365,
+      "tp2_25pct": 1772.3063,
+      "tp3": 1758.7586,
+      "tp4": 1733.39,
+      "gross_r": 1.47,
+      "net_r": 1.28,
+      "bars_waited": 9,
+      "tp1_hit": true,
+      "confluences": [
+        "Mavi Kutu [✓ YAPTI] (1803.6900-1826.1000)",
+        "Mavi Kutu [✓ YAPTI] (1809.3900-1831.2000)"
+      ],
+      "position_sizing": {
+        "qty": 0.1643,
+        "notional_usdt": 301.11,
+        "margin_usdt": 30.11,
+        "risk_usdt": 6.0
+      }
+    }
+  },
+  {
+    "symbol": "SOLUSDT",
+    "timeframe": "15m",
+    "last_price": 72.38,
+    "rsi_14": 44.3,
+    "ema50": 72.7289,
+    "vegas_cloud": "72.2069 - 72.2686",
+    "trend_dir": "SHORT",
+    "score_14": 8,
+    "grade": "B",
+    "conditions_14": {
+      "1_EMA50_Trend": true,
+      "2_EMA144_169_Bulut": false,
+      "3_EMA20_50_Dizilim": false,
+      "4_VWAP_Konumu": true,
+      "5_RSI_Momentum": true,
+      "6_MACD_Histogram": true,
+      "7_Stoch_Yon": false,
+      "8_CCI_Trend": true,
+      "9_Momentum_10": true,
+      "10_Hacim_Ortalamasi": false,
+      "11_OBV_Akisi": false,
+      "12_ATR_Volatilite": true,
+      "13_Trend_Gucu_ADX": false,
+      "14_Sinyal_Yasi_Taze": true
+    },
+    "liquidity_sweep": null,
+    "active_fvg_count": 1,
+    "active_ob_count": 1,
+    "major_boxes": [
+      {
+        "top": 71.55,
+        "mid": 70.965,
+        "bottom": 70.38,
+        "break_dir": "UP",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 71.85,
+        "mid": 71.345,
+        "bottom": 70.84,
+        "break_dir": "UP",
+        "state": "BEKLİYOR"
+      },
+      {
+        "top": 72.95,
+        "mid": 72.47,
+        "bottom": 71.99,
+        "break_dir": "UP",
+        "state": "✓ YAPTI"
+      }
+    ],
+    "fib_plan": {
+      "direction": "SHORT",
+      "status": "EXPIRED",
+      "entry_method": "Fib 0.500 dönüşü",
+      "entry_price": 73.245,
+      "stop_price": 74.3945,
+      "tp1_75pct": 71.6315,
+      "tp2_25pct": 71.3347,
+      "tp3": 70.9084,
+      "tp4": 70.11,
+      "gross_r": 1.47,
+      "net_r": 1.24,
+      "bars_waited": 1,
+      "tp1_hit": false,
+      "confluences": [
+        "FVG_BEAR (72.5400-73.0300)",
+        "OB_BEAR (73.0300-73.9900)",
+        "Mavi Kutu [✓ YAPTI] (71.9900-72.9500)"
+      ],
+      "position_sizing": {
+        "qty": 5.2197,
+        "notional_usdt": 382.31,
+        "margin_usdt": 38.23,
+        "risk_usdt": 6.0
+      }
+    }
+  },
+  {
+    "symbol": "AVAXUSDT",
+    "timeframe": "15m",
+    "last_price": 7.112,
+    "rsi_14": 45.38,
+    "ema50": 7.159,
+    "vegas_cloud": "7.1646 - 7.1668",
+    "trend_dir": "SHORT",
+    "score_14": 11,
+    "grade": "A",
+    "conditions_14": {
+      "1_EMA50_Trend": true,
+      "2_EMA144_169_Bulut": true,
+      "3_EMA20_50_Dizilim": true,
+      "4_VWAP_Konumu": true,
+      "5_RSI_Momentum": true,
+      "6_MACD_Histogram": true,
+      "7_Stoch_Yon": false,
+      "8_CCI_Trend": true,
+      "9_Momentum_10": true,
+      "10_Hacim_Ortalamasi": false,
+      "11_OBV_Akisi": false,
+      "12_ATR_Volatilite": true,
+      "13_Trend_Gucu_ADX": true,
+      "14_Sinyal_Yasi_Taze": true
+    },
+    "liquidity_sweep": null,
+    "active_fvg_count": 1,
+    "active_ob_count": 1,
+    "major_boxes": [
+      {
+        "top": 7.175,
+        "mid": 7.113,
+        "bottom": 7.051,
+        "break_dir": "UP",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 7.223,
+        "mid": 7.1675,
+        "bottom": 7.112,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 7.206,
+        "mid": 7.1665,
+        "bottom": 7.127,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 7.195,
+        "mid": 7.1515,
+        "bottom": 7.108,
+        "break_dir": "UP",
+        "state": "BEKLİYOR"
+      }
+    ],
+    "fib_plan": {
+      "direction": "SHORT",
+      "status": "TP1_HIT",
+      "entry_method": "Fib 0.500 dönüşü",
+      "entry_price": 7.1825,
+      "stop_price": 7.3107,
+      "tp1_75pct": 7.0026,
+      "tp2_25pct": 6.9695,
+      "tp3": 6.922,
+      "tp4": 6.833,
+      "gross_r": 1.47,
+      "net_r": 1.27,
+      "bars_waited": 7,
+      "tp1_hit": true,
+      "confluences": [
+        "OB_BEAR (7.1310-7.2430)",
+        "Mavi Kutu [✓ YAPTI] (7.0510-7.1750)",
+        "Mavi Kutu [✓ YAPTI] (7.1120-7.2230)",
+        "Mavi Kutu [✓ YAPTI] (7.1270-7.2060)",
+        "Mavi Kutu [BEKLİYOR] (7.1080-7.1950)"
+      ],
+      "position_sizing": {
+        "qty": 46.8201,
+        "notional_usdt": 336.29,
+        "margin_usdt": 33.63,
+        "risk_usdt": 6.0
+      }
+    }
+  },
+  {
+    "symbol": "ZECUSDT",
+    "timeframe": "15m",
+    "last_price": 931.58,
+    "rsi_14": 46.3,
+    "ema50": 931.5314,
+    "vegas_cloud": "915.0442 - 916.7514",
+    "trend_dir": "LONG",
+    "score_14": 8,
+    "grade": "B",
+    "conditions_14": {
+      "1_EMA50_Trend": true,
+      "2_EMA144_169_Bulut": true,
+      "3_EMA20_50_Dizilim": true,
+      "4_VWAP_Konumu": false,
+      "5_RSI_Momentum": true,
+      "6_MACD_Histogram": false,
+      "7_Stoch_Yon": true,
+      "8_CCI_Trend": false,
+      "9_Momentum_10": false,
+      "10_Hacim_Ortalamasi": false,
+      "11_OBV_Akisi": false,
+      "12_ATR_Volatilite": true,
+      "13_Trend_Gucu_ADX": true,
+      "14_Sinyal_Yasi_Taze": true
+    },
+    "liquidity_sweep": null,
+    "active_fvg_count": 3,
+    "active_ob_count": 2,
+    "major_boxes": [
+      {
+        "top": 894.37,
+        "mid": 882.945,
+        "bottom": 871.52,
+        "break_dir": "UP",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 904.31,
+        "mid": 892.92,
+        "bottom": 881.53,
+        "break_dir": "UP",
+        "state": "BEKLİYOR"
+      },
+      {
+        "top": 916.0,
+        "mid": 906.08,
+        "bottom": 896.16,
+        "break_dir": "UP",
+        "state": "BEKLİYOR"
+      }
+    ],
+    "fib_plan": {
+      "direction": "LONG",
+      "status": "ACTIVE",
+      "entry_method": "Fib 0.500 dönüşü",
+      "entry_price": 928.305,
+      "stop_price": 905.2105,
+      "tp1_75pct": 960.7213,
+      "tp2_25pct": 966.6839,
+      "tp3": 975.2498,
+      "tp4": 991.29,
+      "gross_r": 1.47,
+      "net_r": 1.32,
+      "bars_waited": 1,
+      "tp1_hit": false,
+      "confluences": [],
+      "position_sizing": {
+        "qty": 0.2598,
+        "notional_usdt": 241.18,
+        "margin_usdt": 24.12,
+        "risk_usdt": 6.0
+      }
+    }
+  },
+  {
+    "symbol": "YGGUSDT",
+    "timeframe": "15m",
+    "last_price": 0.01909,
+    "rsi_14": 49.56,
+    "ema50": 0.019,
+    "vegas_cloud": "0.0187 - 0.0187",
+    "trend_dir": "LONG",
+    "score_14": 9,
+    "grade": "B",
+    "conditions_14": {
+      "1_EMA50_Trend": true,
+      "2_EMA144_169_Bulut": true,
+      "3_EMA20_50_Dizilim": true,
+      "4_VWAP_Konumu": false,
+      "5_RSI_Momentum": true,
+      "6_MACD_Histogram": false,
+      "7_Stoch_Yon": true,
+      "8_CCI_Trend": false,
+      "9_Momentum_10": false,
+      "10_Hacim_Ortalamasi": false,
+      "11_OBV_Akisi": true,
+      "12_ATR_Volatilite": true,
+      "13_Trend_Gucu_ADX": true,
+      "14_Sinyal_Yasi_Taze": true
+    },
+    "liquidity_sweep": null,
+    "active_fvg_count": 6,
+    "active_ob_count": 2,
+    "major_boxes": [
+      {
+        "top": 0.0186,
+        "mid": 0.0185,
+        "bottom": 0.0184,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 0.0187,
+        "mid": 0.0186,
+        "bottom": 0.0185,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      }
+    ],
+    "fib_plan": {
+      "direction": "LONG",
+      "status": "STOPPED",
+      "entry_method": "Fib 0.500 dönüşü",
+      "entry_price": 0.0195,
+      "stop_price": 0.0192,
+      "tp1_75pct": 0.02,
+      "tp2_25pct": 0.0201,
+      "tp3": 0.0203,
+      "tp4": 0.0205,
+      "gross_r": 1.47,
+      "net_r": 1.27,
+      "bars_waited": 3,
+      "tp1_hit": false,
+      "confluences": [
+        "FVG_BEAR (0.0193-0.0196)"
+      ],
+      "position_sizing": {
+        "qty": 17045.4545,
+        "notional_usdt": 333.24,
+        "margin_usdt": 33.32,
+        "risk_usdt": 6.0
+      }
+    }
+  },
+  {
+    "symbol": "XRPUSDT",
+    "timeframe": "15m",
+    "last_price": 0.9589,
+    "rsi_14": 44.17,
+    "ema50": 0.9631,
+    "vegas_cloud": "0.9605 - 0.9607",
+    "trend_dir": "SHORT",
+    "score_14": 11,
+    "grade": "A",
+    "conditions_14": {
+      "1_EMA50_Trend": true,
+      "2_EMA144_169_Bulut": true,
+      "3_EMA20_50_Dizilim": true,
+      "4_VWAP_Konumu": true,
+      "5_RSI_Momentum": true,
+      "6_MACD_Histogram": true,
+      "7_Stoch_Yon": true,
+      "8_CCI_Trend": true,
+      "9_Momentum_10": true,
+      "10_Hacim_Ortalamasi": false,
+      "11_OBV_Akisi": false,
+      "12_ATR_Volatilite": true,
+      "13_Trend_Gucu_ADX": false,
+      "14_Sinyal_Yasi_Taze": true
+    },
+    "liquidity_sweep": null,
+    "active_fvg_count": 0,
+    "active_ob_count": 1,
+    "major_boxes": [
+      {
+        "top": 0.9634,
+        "mid": 0.9561,
+        "bottom": 0.9488,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 0.9664,
+        "mid": 0.959,
+        "bottom": 0.9516,
+        "break_dir": "UP",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 0.9643,
+        "mid": 0.958,
+        "bottom": 0.9516,
+        "break_dir": "UP",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 0.9625,
+        "mid": 0.9572,
+        "bottom": 0.9519,
+        "break_dir": "UP",
+        "state": "✓ YAPTI"
+      }
+    ],
+    "fib_plan": {
+      "direction": "SHORT",
+      "status": "EXPIRED",
+      "entry_method": "Fib 0.500 dönüşü",
+      "entry_price": 0.9684,
+      "stop_price": 0.9802,
+      "tp1_75pct": 0.9519,
+      "tp2_25pct": 0.9488,
+      "tp3": 0.9445,
+      "tp4": 0.9363,
+      "gross_r": 1.47,
+      "net_r": 1.18,
+      "bars_waited": 1,
+      "tp1_hit": false,
+      "confluences": [
+        "OB_BEAR (0.9642-0.9746)",
+        "Mavi Kutu [✓ YAPTI] (0.9516-0.9664)",
+        "Mavi Kutu [✓ YAPTI] (0.9516-0.9643)"
+      ],
+      "position_sizing": {
+        "qty": 509.7706,
+        "notional_usdt": 493.66,
+        "margin_usdt": 49.37,
+        "risk_usdt": 6.0
+      }
+    }
+  },
+  {
+    "symbol": "SUIUSDT",
+    "timeframe": "15m",
+    "last_price": 0.7198,
+    "rsi_14": 41.39,
+    "ema50": 0.7257,
+    "vegas_cloud": "0.7244 - 0.7244",
+    "trend_dir": "SHORT",
+    "score_14": 10,
+    "grade": "A",
+    "conditions_14": {
+      "1_EMA50_Trend": true,
+      "2_EMA144_169_Bulut": true,
+      "3_EMA20_50_Dizilim": true,
+      "4_VWAP_Konumu": true,
+      "5_RSI_Momentum": true,
+      "6_MACD_Histogram": true,
+      "7_Stoch_Yon": false,
+      "8_CCI_Trend": true,
+      "9_Momentum_10": true,
+      "10_Hacim_Ortalamasi": false,
+      "11_OBV_Akisi": false,
+      "12_ATR_Volatilite": true,
+      "13_Trend_Gucu_ADX": false,
+      "14_Sinyal_Yasi_Taze": true
+    },
+    "liquidity_sweep": null,
+    "active_fvg_count": 0,
+    "active_ob_count": 1,
+    "major_boxes": [
+      {
+        "top": 0.7285,
+        "mid": 0.7219,
+        "bottom": 0.7153,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 0.7267,
+        "mid": 0.7215,
+        "bottom": 0.7163,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 0.7266,
+        "mid": 0.7218,
+        "bottom": 0.7171,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 0.7256,
+        "mid": 0.7214,
+        "bottom": 0.7172,
+        "break_dir": "UP",
+        "state": "✓ YAPTI"
+      }
+    ],
+    "fib_plan": {
+      "direction": "SHORT",
+      "status": "EXPIRED",
+      "entry_method": "Fib 0.500 dönüşü",
+      "entry_price": 0.7293,
+      "stop_price": 0.7407,
+      "tp1_75pct": 0.7134,
+      "tp2_25pct": 0.7104,
+      "tp3": 0.7062,
+      "tp4": 0.6983,
+      "gross_r": 1.47,
+      "net_r": 1.24,
+      "bars_waited": 1,
+      "tp1_hit": false,
+      "confluences": [
+        "OB_BEAR (0.7268-0.7359)",
+        "Mavi Kutu [✓ YAPTI] (0.7153-0.7285)",
+        "Mavi Kutu [✓ YAPTI] (0.7163-0.7267)",
+        "Mavi Kutu [✓ YAPTI] (0.7171-0.7266)"
+      ],
+      "position_sizing": {
+        "qty": 527.0092,
+        "notional_usdt": 384.37,
+        "margin_usdt": 38.44,
+        "risk_usdt": 6.0
+      }
+    }
+  },
+  {
+    "symbol": "1000PEPEUSDT",
+    "timeframe": "15m",
+    "last_price": 0.0037216,
+    "rsi_14": 35.17,
+    "ema50": 0.0038,
+    "vegas_cloud": "0.0039 - 0.0039",
+    "trend_dir": "SHORT",
+    "score_14": 12,
+    "grade": "A",
+    "conditions_14": {
+      "1_EMA50_Trend": true,
+      "2_EMA144_169_Bulut": true,
+      "3_EMA20_50_Dizilim": true,
+      "4_VWAP_Konumu": true,
+      "5_RSI_Momentum": true,
+      "6_MACD_Histogram": true,
+      "7_Stoch_Yon": false,
+      "8_CCI_Trend": true,
+      "9_Momentum_10": true,
+      "10_Hacim_Ortalamasi": false,
+      "11_OBV_Akisi": true,
+      "12_ATR_Volatilite": true,
+      "13_Trend_Gucu_ADX": true,
+      "14_Sinyal_Yasi_Taze": true
+    },
+    "liquidity_sweep": null,
+    "active_fvg_count": 3,
+    "active_ob_count": 2,
+    "major_boxes": [
+      {
+        "top": 0.0038,
+        "mid": 0.0037,
+        "bottom": 0.0037,
+        "break_dir": "UP",
+        "state": "BEKLİYOR"
+      },
+      {
+        "top": 0.0039,
+        "mid": 0.0039,
+        "bottom": 0.0039,
+        "break_dir": "UP",
+        "state": "BEKLİYOR"
+      },
+      {
+        "top": 0.0039,
+        "mid": 0.0039,
+        "bottom": 0.0039,
+        "break_dir": "UP",
+        "state": "BEKLİYOR"
+      },
+      {
+        "top": 0.004,
+        "mid": 0.0039,
+        "bottom": 0.0039,
+        "break_dir": "DOWN",
+        "state": "BEKLİYOR"
+      }
+    ],
+    "fib_plan": {
+      "direction": "SHORT",
+      "status": "EXPIRED",
+      "entry_method": "Fib 0.500 dönüşü",
+      "entry_price": 0.0038,
+      "stop_price": 0.0039,
+      "tp1_75pct": 0.0037,
+      "tp2_25pct": 0.0037,
+      "tp3": 0.0037,
+      "tp4": 0.0036,
+      "gross_r": 1.47,
+      "net_r": 1.26,
+      "bars_waited": 1,
+      "tp1_hit": false,
+      "confluences": [
+        "OB_BEAR (0.0038-0.0038)",
+        "Mavi Kutu [BEKLİYOR] (0.0037-0.0038)"
+      ],
+      "position_sizing": {
+        "qty": 91904.7254,
+        "notional_usdt": 349.87,
+        "margin_usdt": 34.99,
+        "risk_usdt": 6.0
+      }
+    }
+  },
+  {
+    "symbol": "LINKUSDT",
+    "timeframe": "15m",
+    "last_price": 9.125,
+    "rsi_14": 42.42,
+    "ema50": 9.1817,
+    "vegas_cloud": "9.1777 - 9.1794",
+    "trend_dir": "SHORT",
+    "score_14": 10,
+    "grade": "A",
+    "conditions_14": {
+      "1_EMA50_Trend": true,
+      "2_EMA144_169_Bulut": true,
+      "3_EMA20_50_Dizilim": true,
+      "4_VWAP_Konumu": true,
+      "5_RSI_Momentum": true,
+      "6_MACD_Histogram": true,
+      "7_Stoch_Yon": false,
+      "8_CCI_Trend": true,
+      "9_Momentum_10": true,
+      "10_Hacim_Ortalamasi": false,
+      "11_OBV_Akisi": false,
+      "12_ATR_Volatilite": true,
+      "13_Trend_Gucu_ADX": false,
+      "14_Sinyal_Yasi_Taze": true
+    },
+    "liquidity_sweep": null,
+    "active_fvg_count": 1,
+    "active_ob_count": 1,
+    "major_boxes": [
+      {
+        "top": 9.201,
+        "mid": 9.1295,
+        "bottom": 9.058,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 9.247,
+        "mid": 9.183,
+        "bottom": 9.119,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 9.221,
+        "mid": 9.159,
+        "bottom": 9.097,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 9.176,
+        "mid": 9.1255,
+        "bottom": 9.075,
+        "break_dir": "UP",
+        "state": "✓ YAPTI"
+      }
+    ],
+    "fib_plan": {
+      "direction": "SHORT",
+      "status": "EXPIRED",
+      "entry_method": "Fib 0.500 dönüşü",
+      "entry_price": 9.232,
+      "stop_price": 9.3882,
+      "tp1_75pct": 9.0128,
+      "tp2_25pct": 8.9724,
+      "tp3": 8.9145,
+      "tp4": 8.806,
+      "gross_r": 1.47,
+      "net_r": 1.25,
+      "bars_waited": 1,
+      "tp1_hit": false,
+      "confluences": [
+        "FVG_BEAR (9.1090-9.2000)",
+        "OB_BEAR (9.2000-9.3120)",
+        "Mavi Kutu [✓ YAPTI] (9.0580-9.2010)",
+        "Mavi Kutu [✓ YAPTI] (9.1190-9.2470)",
+        "Mavi Kutu [✓ YAPTI] (9.0970-9.2210)"
+      ],
+      "position_sizing": {
+        "qty": 38.4123,
+        "notional_usdt": 354.62,
+        "margin_usdt": 35.46,
+        "risk_usdt": 6.0
+      }
+    }
+  },
+  {
+    "symbol": "DOGEUSDT",
+    "timeframe": "15m",
+    "last_price": 0.05863,
+    "rsi_14": 46.33,
+    "ema50": 0.0589,
+    "vegas_cloud": "0.0589 - 0.0589",
+    "trend_dir": "SHORT",
+    "score_14": 12,
+    "grade": "A",
+    "conditions_14": {
+      "1_EMA50_Trend": true,
+      "2_EMA144_169_Bulut": true,
+      "3_EMA20_50_Dizilim": true,
+      "4_VWAP_Konumu": true,
+      "5_RSI_Momentum": true,
+      "6_MACD_Histogram": true,
+      "7_Stoch_Yon": true,
+      "8_CCI_Trend": true,
+      "9_Momentum_10": true,
+      "10_Hacim_Ortalamasi": false,
+      "11_OBV_Akisi": true,
+      "12_ATR_Volatilite": true,
+      "13_Trend_Gucu_ADX": false,
+      "14_Sinyal_Yasi_Taze": true
+    },
+    "liquidity_sweep": null,
+    "active_fvg_count": 2,
+    "active_ob_count": 1,
+    "major_boxes": [
+      {
+        "top": 0.0599,
+        "mid": 0.0594,
+        "bottom": 0.059,
+        "break_dir": "DOWN",
+        "state": "BEKLİYOR"
+      },
+      {
+        "top": 0.0597,
+        "mid": 0.0594,
+        "bottom": 0.0592,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 0.0594,
+        "mid": 0.059,
+        "bottom": 0.0586,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 0.0595,
+        "mid": 0.0591,
+        "bottom": 0.0587,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      }
+    ],
+    "fib_plan": {
+      "direction": "SHORT",
+      "status": "TP1_HIT",
+      "entry_method": "Fib 0.500 dönüşü",
+      "entry_price": 0.0591,
+      "stop_price": 0.06,
+      "tp1_75pct": 0.0578,
+      "tp2_25pct": 0.0576,
+      "tp3": 0.0572,
+      "tp4": 0.0566,
+      "gross_r": 1.47,
+      "net_r": 1.24,
+      "bars_waited": 5,
+      "tp1_hit": true,
+      "confluences": [
+        "OB_BEAR (0.0588-0.0595)",
+        "Mavi Kutu [BEKLİYOR] (0.0590-0.0599)",
+        "Mavi Kutu [✓ YAPTI] (0.0592-0.0597)",
+        "Mavi Kutu [✓ YAPTI] (0.0586-0.0594)",
+        "Mavi Kutu [✓ YAPTI] (0.0587-0.0595)"
+      ],
+      "position_sizing": {
+        "qty": 6493.5065,
+        "notional_usdt": 383.9,
+        "margin_usdt": 38.39,
+        "risk_usdt": 6.0
+      }
+    }
+  },
+  {
+    "symbol": "ACTUSDT",
+    "timeframe": "15m",
+    "last_price": 0.008764,
+    "rsi_14": 48.41,
+    "ema50": 0.0088,
+    "vegas_cloud": "0.0088 - 0.0088",
+    "trend_dir": "SHORT",
+    "score_14": 8,
+    "grade": "B",
+    "conditions_14": {
+      "1_EMA50_Trend": true,
+      "2_EMA144_169_Bulut": false,
+      "3_EMA20_50_Dizilim": true,
+      "4_VWAP_Konumu": true,
+      "5_RSI_Momentum": true,
+      "6_MACD_Histogram": true,
+      "7_Stoch_Yon": false,
+      "8_CCI_Trend": true,
+      "9_Momentum_10": false,
+      "10_Hacim_Ortalamasi": false,
+      "11_OBV_Akisi": false,
+      "12_ATR_Volatilite": true,
+      "13_Trend_Gucu_ADX": false,
+      "14_Sinyal_Yasi_Taze": true
+    },
+    "liquidity_sweep": null,
+    "active_fvg_count": 3,
+    "active_ob_count": 0,
+    "major_boxes": [
+      {
+        "top": 0.0088,
+        "mid": 0.0087,
+        "bottom": 0.0087,
+        "break_dir": "UP",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 0.0088,
+        "mid": 0.0087,
+        "bottom": 0.0086,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      },
+      {
+        "top": 0.0088,
+        "mid": 0.0087,
+        "bottom": 0.0087,
+        "break_dir": "DOWN",
+        "state": "✓ YAPTI"
+      }
+    ],
+    "fib_plan": {
+      "direction": "SHORT",
+      "status": "STOPPED",
+      "entry_method": "Fib 0.500 dönüşü",
+      "entry_price": 0.0086,
+      "stop_price": 0.0088,
+      "tp1_75pct": 0.0084,
+      "tp2_25pct": 0.0084,
+      "tp3": 0.0084,
+      "tp4": 0.0083,
+      "gross_r": 1.47,
+      "net_r": 1.23,
+      "bars_waited": 2,
+      "tp1_hit": false,
+      "confluences": [
+        "Mavi Kutu [✓ YAPTI] (0.0087-0.0088)",
+        "Mavi Kutu [✓ YAPTI] (0.0086-0.0088)",
+        "Mavi Kutu [✓ YAPTI] (0.0087-0.0088)"
+      ],
+      "position_sizing": {
+        "qty": 45454.5455,
+        "notional_usdt": 392.05,
+        "margin_usdt": 39.2,
+        "risk_usdt": 6.0
+      }
+    }
+  }
+]

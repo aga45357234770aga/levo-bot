@@ -1,0 +1,1 @@
+# KriptoLevo Bot harici Python paketi gerektirmez (tamamen Python standart kutuphanesi ile calisir).
