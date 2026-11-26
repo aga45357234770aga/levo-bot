@@ -174,6 +174,27 @@ class PaperTradingBot:
         for sym in to_close:
             self.closed_trades.insert(0, self.open_positions.pop(sym))
 
+    def manual_close_position(self, symbol: str) -> Optional[Dict]:
+        """Kullanıcının arayüzden tek tuşla açık pozisyonu manuel kapatmasını sağlar."""
+        sym = symbol.upper().strip()
+        pos = self.open_positions.get(sym)
+        if not pos:
+            return None
+        cur_price = pos.get("current_price", pos["entry_price"])
+        entry = pos["entry_price"]
+        direction = pos["direction"]
+        pnl_pct = ((cur_price - entry) / entry) if direction == "LONG" else ((entry - cur_price) / entry)
+        unrl = round(pos["remaining_notional"] * pnl_pct, 2)
+        self.balance += unrl
+        pos["exit_price"] = cur_price
+        pos["realized_pnl_usdt"] = round(pos.get("realized_pnl_usdt", 0.0) + unrl, 2)
+        pos["close_reason"] = "MANUEL_KAPATMA"
+        pos["closed_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        closed = self.open_positions.pop(sym)
+        self.closed_trades.insert(0, closed)
+        self.save_state()
+        return closed
+
     def run_cycle(self, scan_limit: int = 80) -> Dict:
         """
         1) Binance + MEXC'den en yüksek volatiliteli 300 coini çeker
@@ -244,7 +265,9 @@ class PaperTradingBot:
                     "tp1_hit": False,
                     "initial_notional": round(notional, 2),
                     "remaining_notional": round(notional, 2),
+                    "leverage": self.leverage,
                     "margin_usdt": round(margin, 2),
+                    "margin_pct": round((margin / max(self.balance, 1e-12)) * 100.0, 2),
                     "risk_usdt": round(risk_usdt, 2),
                     "unrealized_pnl_usdt": 0.0,
                     "realized_pnl_usdt": 0.0,
