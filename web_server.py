@@ -14,7 +14,7 @@ import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from datetime import datetime
 
-from paper_trader import PaperTradingBot, STATE_FILE
+from paper_trader import PaperTradingBot, STATE_FILE, now_tr_str
 
 PORT = int(os.environ.get("PORT", 8501))
 BOT = PaperTradingBot()
@@ -560,7 +560,7 @@ class BotRequestHandler(BaseHTTPRequestHandler):
             except Exception:
                 payload = {"raw": raw}
             with BOT_LOCK:
-                BOT.webhook_alerts.insert(0, {"time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "payload": payload})
+                BOT.webhook_alerts.insert(0, {"time": now_tr_str(), "payload": payload})
                 BOT.save_state()
             self._send_json({"ok": True})
         else:
