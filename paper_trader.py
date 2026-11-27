@@ -9,9 +9,31 @@ KriptoLevo (Kripto Levent) — 7/24 Test (Paper Trading) Motoru
 import json
 import os
 import time
+import urllib.request
+import urllib.parse
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from typing import Dict, List, Optional
+
+TR_TZ = timezone(timedelta(hours=3))
+
+
+def now_tr_str() -> str:
+    return datetime.now(TR_TZ).strftime("%Y-%m-%d %H:%M:%S")
+
+
+def send_telegram_alert(message: str) -> None:
+    """TELEGRAM_BOT_TOKEN ve TELEGRAM_CHAT_ID tanimliysa anlik bildirim gonderir."""
+    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
+    if not token or not chat_id:
+        return
+    try:
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        data = urllib.parse.urlencode({"chat_id": chat_id, "text": message, "parse_mode": "HTML"}).encode("utf-8")
+        urllib.request.urlopen(urllib.request.Request(url, data=data), timeout=5)
+    except Exception:
+        pass
 
 from exchange_connector import BinanceMEXCConnector
 from strategy_engine import KriptoLevoStrategyEngine
@@ -34,7 +56,12 @@ class PaperTradingBot:
         leverage: int = 10,
         top_volatile_count: int = 300,
     ):
-        self.connector = BinanceMEXCConnector(live_trading=False)
+        self.live_trading = os.environ.get("LIVE_TRADING", "false").lower() == "true"
+        self.connector = BinanceMEXCConnector(
+            mexc_api_key=os.environ.get("MEXC_API_KEY", "").strip(),
+            mexc_api_secret=os.environ.get("MEXC_API_SECRET", "").strip(),
+            live_trading=self.live_trading,
+        )
         self.engine = KriptoLevoStrategyEngine()
         self.initial_balance = initial_balance
         self.balance = initial_balance
@@ -70,7 +97,9 @@ class PaperTradingBot:
 
     def save_state(self):
         data = {
-            "mode": "TEST (SANAL BAKİYE)",
+            "mode": "CANLI MOD (MEXC)" if self.live_trading else "TEST MODU (SANAL BAKİYE)",
+            "mexc_connected": bool(self.connector.mexc_api_key and self.connector.mexc_api_secret),
+            "telegram_connected": bool(os.environ.get("TELEGRAM_BOT_TOKEN") and os.environ.get("TELEGRAM_CHAT_ID")),
             "initial_balance": self.initial_balance,
             "balance": round(self.balance, 2),
             "max_positions": self.max_positions,
@@ -155,7 +184,7 @@ class PaperTradingBot:
                 pos["exit_price"] = cur_price
                 pos["realized_pnl_usdt"] = round(realized, 2)
                 pos["close_reason"] = "BREAKEVEN_STOP" if pos["tp1_hit"] else "STOP_LOSS"
-                pos["closed_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                pos["closed_at"] = now_tr_str()
                 to_close.append(sym)
                 continue
 
@@ -172,6 +201,7 @@ class PaperTradingBot:
                     pos["tp1_hit"] = True
                     pos["stop_price"] = entry  # TP1 sonrası Giriş-Stop (Breakeven)!
                     pos["status_note"] = "TP1 (%75) Alındı • Stop Girişte"
+                    send_telegram_alert(f"✅ <b>TP1 (%75) Alındı:</b> {sym} ({direction})\nStop giriş fiyatına çekildi: {entry}")
 
             # TP2 (%25 Çıkış)
             if pos["tp1_hit"]:
@@ -183,11 +213,16 @@ class PaperTradingBot:
                     pos["realized_pnl_usdt"] = round(pos.get("realized_pnl_usdt", 0.0) + tp2_pnl, 2)
                     pos["exit_price"] = cur_price
                     pos["close_reason"] = "TP2_TARGET"
-                    pos["closed_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    pos["closed_at"] = now_tr_str()
                     to_close.append(sym)
 
         for sym in to_close:
-            self.closed_trades.insert(0, self.open_positions.pop(sym))
+            closed_item = self.open_positions.pop(sym)
+            self.closed_trades.insert(0, closed_item)
+            send_telegram_alert(
+                f"🏁 <b>İşlem Kapandı:</b> {sym} ({closed_item['direction']})\n"
+                f"Neden: {closed_item['close_reason']} | Net PnL: <b>{closed_item['realized_pnl_usdt']:+.2f}$</b>"
+            )
 
     def manual_close_position(self, symbol: str) -> Optional[Dict]:
         """Kullanıcının arayüzden tek tuşla açık pozisyonu manuel kapatmasını sağlar."""
@@ -206,7 +241,7 @@ class PaperTradingBot:
         pos["exit_price"] = cur_price
         pos["realized_pnl_usdt"] = round(pos.get("realized_pnl_usdt", 0.0) + net_pnl, 2)
         pos["close_reason"] = "MANUEL_KAPATMA"
-        pos["closed_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        pos["closed_at"] = now_tr_str()
         closed = self.open_positions.pop(sym)
         self.closed_trades.insert(0, closed)
         self.save_state()
@@ -298,10 +333,14 @@ class PaperTradingBot:
                     "confluences": sig["confluences"],
                     "fib_levels": sig["fib_levels"],
                     "status_note": "Açık (TP1 %75 Bekleniyor)",
-                    "opened_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "opened_at": now_tr_str(),
                 }
+                send_telegram_alert(
+                    f"🚀 <b>Yeni İşlem:</b> {sym} ({sig['direction']} • {self.leverage}x)\n"
+                    f"Marjin: ${margin:.2f} | Giriş: {entry} | Stop: {stop} | TP1: {sig['tp1']} | Derece: {sig['grade']} ({sig['score_14']}/14)"
+                )
 
-        self.last_scan_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.last_scan_time = now_tr_str()
         self.save_state()
         return {
             "top300_count": len(self.volatile_300),
