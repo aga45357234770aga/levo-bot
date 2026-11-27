@@ -202,3 +202,81 @@ class BinanceMEXCConnector:
                 )
             )
         return candles
+
+    # =========================================================================
+    # 3. MEXC VADELİ İŞLEMLER (FUTURES) İMZALI CANLI API MODÜLÜ
+    # =========================================================================
+    def _mexc_sign(self, req_time: str, param_str: str = "") -> str:
+        sign_str = f"{self.mexc_api_key}{req_time}{param_str}"
+        return hmac.new(
+            self.mexc_api_secret.encode("utf-8"),
+            sign_str.encode("utf-8"),
+            hashlib.sha256,
+        ).hexdigest()
+
+    def _mexc_private_request(self, method: str, path: str, params: Optional[dict] = None) -> Dict:
+        if not self.mexc_api_key or not self.mexc_api_secret:
+            return {"success": False, "message": "MEXC_API_KEY veya MEXC_API_SECRET tanimli degil."}
+        req_time = str(int(time.time() * 1000))
+        params = params or {}
+        if method == "GET":
+            sorted_qs = "&".join(f"{k}={urllib.parse.quote(str(v))}" for k, v in sorted(params.items()))
+            sig = self._mexc_sign(req_time, sorted_qs)
+            url = f"{self.MEXC_CONTRACT}{path}" + (f"?{sorted_qs}" if sorted_qs else "")
+            body = None
+        else:
+            body_str = json.dumps(params, separators=(",", ":"))
+            sig = self._mexc_sign(req_time, body_str)
+            url = f"{self.MEXC_CONTRACT}{path}"
+            body = body_str.encode("utf-8")
+
+        headers = {
+            "ApiKey": self.mexc_api_key,
+            "Request-Time": req_time,
+            "Signature": sig,
+            "Content-Type": "application/json",
+            "User-Agent": "KriptoLevoBot/1.0",
+        }
+        req = urllib.request.Request(url, data=body, method=method, headers=headers)
+        try:
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            err_body = e.read().decode("utf-8", errors="ignore")
+            return {"success": False, "code": e.code, "message": err_body}
+        except Exception as e:
+            return {"success": False, "message": str(e)}
+
+    def get_mexc_usdt_balance(self) -> Dict:
+        """MEXC Vadeli (Futures) hesabindaki USDT bakiyesini ve API baglantisini test eder."""
+        return self._mexc_private_request("GET", "/api/v1/private/account/asset/USDT")
+
+    def submit_mexc_futures_order(
+        self,
+        mexc_symbol: str,
+        direction: str,
+        vol: float,
+        leverage: int = 10,
+        stop_loss_price: Optional[float] = None,
+        take_profit_price: Optional[float] = None,
+    ) -> Dict:
+        """
+        MEXC Vadeli (Contract) piyasa emri gonderir.
+        side: 1 = Open Long, 3 = Open Short | openType: 1 = Isolated (Izole) | type: 5 = Market
+        """
+        if not self.live_trading:
+            return {"success": False, "message": "Test modu aktif (live_trading=False)."}
+        side_code = 1 if direction.upper() == "LONG" else 3
+        payload = {
+            "symbol": mexc_symbol,
+            "vol": vol,
+            "leverage": leverage,
+            "side": side_code,
+            "type": 5,      # Market Order
+            "openType": 1,  # Isolated Margin
+        }
+        if stop_loss_price:
+            payload["stopLossPrice"] = stop_loss_price
+        if take_profit_price:
+            payload["takeProfitPrice"] = take_profit_price
+        return self._mexc_private_request("POST", "/api/v1/private/order/submit", payload)
